@@ -1,0 +1,98 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+  <span class="mask bg-gradient-danger opacity-8"></span>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-body">
+          <form [formGroup]="consultaForm">
+            <h6 class="heading-small text-muted mb-4">Consulta por Participante</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-codigo">Código</label>
+                    <input type="text" id="input-codigo" class="form-control form-control-alternative"
+                      formControlName="codigo" (change)="onInputChange(view)">
+                    <div *ngIf="consultaForm.get('codigo').hasError('required') &&
+                    consultaForm.get('codigo').touched" style="font-size:8pt; color: red;">
+                      campo obrigatório.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #view>
+  <div class="modal-header">
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="hideModal()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- inicio -->
+    <div class="row">
+      <div class="col card-profile-stats d-flex justify-content-center">
+        <img *ngIf="usuario && usuario.img==null" src="assets/img/profile/unisex.jpg" class="rounded-circle"
+          style="width: 200px; height: 200px;">
+        <img *ngIf="usuario && usuario.img!=null && !production" src="{{imgURL}}/{{usuario.img}}" class="rounded-circle"
+          style="width: 200px; height: 200px;">
+        <img *ngIf="usuario && usuario.img!=null && production" src="{{usuario.img}}" class="rounded-circle"
+          style="width: 200px; height: 200px;">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <label class="form-control-label" for="input-nome">Nome: {{usuario.nome}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <label class="form-control-label" for="input-sexo">Sexo: {{usuario.sexo == 'M'? 'Masculino':
+          'Feminino'}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <label class="form-control-label" for="input-nome">Documento: {{usuario.identidade}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <label class="form-control-label" for="input-nome">Unidade: {{usuario.unidade.nome}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <label class="form-control-label" for="input-nome">Celular: {{usuario.celular}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <label class="form-control-label" for="input-nome">Aluno: {{usuario.ra != null ? 'Sim':'Não'}}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <label class="form-control-label" for="input-nome">Pacote: {{usuario.unidadePacote.pacote.descricao}}</label>
+      </div>
+    </div>
+    <div class="row" *ngIf="usuario.ra != null">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <label class="form-control-label" for="input-nome">RA: {{usuario.ra}}</label>
+      </div>
+    </div>
+    <div class="row" *ngIf="usuario.ra != null">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <label class="form-control-label" for="input-nome">Curso: {{usuario.curso.nome}}</label>
+      </div>
+    </div>
+    <!-- fim -->
+  </div>
+</ng-template>

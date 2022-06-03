@@ -1,0 +1,185 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <h3 class="mb-0">Participantes</h3>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Unidade</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let usuario of usuarios">
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <span class="mb-0 text-sm">{{usuario.nome}}</span>
+                    </div>
+                  </div>
+                </th>
+                <td>
+                  {{usuario.unidade.nome}}
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    <i Class="bg-success"></i>
+                    Pronto para o checkin
+                  </span>
+                </td>
+                <td class="text-right">
+                  <div>
+                    <a class="btn btn-sm btn-icon-only" (click)="openModalCheckin(checkin, usuario)">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #checkin>
+  <div class="modal-header">
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-body" *ngIf="usuario">
+      <div class="row">
+        <div class="col card-profile-stats d-flex justify-content-center">
+          <img *ngIf="usuario && usuario.img==null" src="assets/img/profile/unisex.jpg" class="rounded-circle"
+            style="width: 300px; height: 300px;">
+          <img *ngIf="usuario && usuario.img!=null && !production" src="{{imgURL}}/{{usuario.img}}"
+            class="rounded-circle" style="width: 300px; height: 300px;">
+          <img *ngIf="usuario && usuario.img!=null && production" src="{{usuario.img}}" class="rounded-circle"
+            style="width: 300px; height: 300px;">
+        </div>
+      </div>
+      <h6 class="heading-small text-muted mb-4">Dados pessoais</h6>
+      <div class="pl-lg-4">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="form-group">
+              <label class="form-control-label" for="input-nome">Nome</label>
+              <input type="text" id="input-nome" class="form-control form-control-alternative" disabled
+                value={{usuario.nome}}>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label" for="input-sexo">Sexo</label>
+              <input type="text" id="input-nome" class="form-control form-control-alternative" disabled
+                value="{{usuario.sexo == 'M' ? 'Masculino' : 'Feminino' }}">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label" for="input-identidade">RG</label>
+              <input type="text" id="input-identidade" class="form-control form-control-alternative"
+                value={{usuario.identidade}} disabled>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label" for="input-dataNascimento">Nascimento</label>
+              <input type="date" id="input-dataNascimento" class="form-control form-control-alternative"
+                [ngModel]="usuario.dataNascimento | date:'yyyy-MM-dd'" disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4" />
+      <!-- Contato -->
+      <h6 class="heading-small text-muted mb-4">Contato</h6>
+      <div class="pl-lg-4">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="form-group">
+              <label class="form-control-label" for="input-email">Email</label>
+              <input type="email" id="input-email" class="form-control form-control-alternative" disabled
+                value={{usuario.email}}>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label" for="input-celular">Celular</label>
+              <input type="text" id="input-celular" class="form-control form-control-alternative" disabled
+                value={{usuario.celular}}>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4" />
+      <!-- Unidade -->
+      <h6 class="heading-small text-muted mb-4">Unidade</h6>
+      <div class="pl-lg-4">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-control-label" for="input-unidade">Unidade</label>
+              <input type="text" id="input-unidade" class="form-control form-control-alternative"
+                value={{usuario.unidade.nome}} disabled>
+            </div>
+          </div>
+          <div class="col-lg-4" *ngIf="usuario.ra">
+            <div class="form-group">
+              <label class="form-control-label" for="input-ra">RA</label>
+              <input type="text" id="input-ra" class="form-control form-control-alternative" value={{usuario.ra}}
+                disabled>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12" *ngIf="usuario.ra">
+            <div class="form-group">
+              <label class="form-control-label" for="input-curso">Curso</label>
+              <input type="text" id="input-curso" class="form-control form-control-alternative"
+                value={{usuario.curso.nome}} disabled>
+            </div>
+          </div>
+        </div>
+        <form [formGroup]="checkinForm">
+        <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-codigo">Codigo</label>
+                <input type="text" id="input-codigo" class="form-control form-control-alternative"
+                  formControlName="codigo" (change)="onInputChange()">
+                <div *ngIf="checkinForm.get('codigo').hasError('required') &&
+                    checkinForm.get('codigo').touched" style="font-size:8pt; color: red;">
+                  campo obrigatório.
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>

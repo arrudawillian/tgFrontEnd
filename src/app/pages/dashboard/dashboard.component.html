@@ -1,0 +1,72 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+  <span class="mask bg-gradient-danger opacity-8"></span>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-4 text-right">
+            </div>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="usuario">
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Pacote</th>
+                  <th scope="col">Atestado Matrícula</th>
+                  <th scope="col">Pagamento</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    <span class="badge badge-dot mr-4" *ngIf="usuario.unidadePacote">
+                      <i class="bg-success"></i> {{usuario.unidadePacote.pacote.descricao}}
+                    </span>
+                    <span class="badge badge-dot mr-4" *ngIf="!usuario.unidadePacote">
+                      <i class="bg-gradient-danger"></i> Pendente
+                    </span>
+                  </th>
+                  <td>
+                    <span class="badge badge-dot mr-4" *ngIf="atestado && atestado.status.descricao == 'Pendente'">
+                      <i class="bg-warning"></i> Aprovação Pendente
+                    </span>
+                    <span class="badge badge-dot mr-4" *ngIf="atestado && atestado.status.descricao == 'Recusado'">
+                      <i class="bg-gradient-danger"></i> Recusado
+                    </span>
+                    <span class="badge badge-dot mr-4" *ngIf="atestado && atestado.status.descricao == 'Aprovado'">
+                      <i class="bg-success"></i> Aprovado
+                    </span>
+                    <span class="badge badge-dot mr-4" *ngIf="!atestado">
+                      <i class="bg-warning"></i> Envio Pendente
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge badge-dot mr-4" *ngIf="faltaPagar <= 0">
+                      <i class="bg-success"></i> Pago
+                    </span>
+                    <span class="badge badge-dot mr-4" *ngIf="faltaPagar > 0">
+                      <i class="bg-warning"></i> Pendente
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge badge-dot mr-4" *ngIf="faltaPagar <= 0 && (atestado && atestado.status.descricao == 'Aprovado') && usuario.unidadePacote">
+                      <i class="bg-success"></i> Inscrição Aprovada
+                    </span>
+                    <span class="badge badge-dot mr-4" *ngIf="!faltaPagar <= 0 || !(atestado && atestado.status.descricao == 'Aprovado') || !usuario.unidadePacote">
+                      <i class="bg-warning"></i> Inscrição Pendente
+                    </span>
+                  </td>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

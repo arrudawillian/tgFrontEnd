@@ -1,0 +1,196 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-12 col-md-12" *ngIf="usuario">
+        <h1 class="display-2 text-white">Olá {{usuario.nome.split(' ')[0]}}</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+      <div class="card card-profile shadow">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+            </div>
+          </div>
+        </div>
+        <div class="card-body pt-0 pt-md-4">
+          <div class="row">
+            <div class="col card-profile-stats d-flex justify-content-center" style="cursor:pointer">
+              <img *ngIf="usuario && usuario.img==null" src="assets/img/profile/unisex.jpg" (click)="img.click()"
+                class="rounded-circle" style="width: 200px; height: 200px;">
+              <img *ngIf="usuario && usuario.img!=null && !production" src="{{imgURL}}/{{usuario.img}}"
+                (click)="img.click()" class="rounded-circle" style="width: 200px; height: 200px;">
+              <img *ngIf="usuario && usuario.img!=null && production" src="{{usuario.img}}" (click)="img.click()"
+                class="rounded-circle" style="width: 200px; height: 200px;">
+              <input type="file" #img class="form-control" (change)="onFileChange($event)" style="display: none"
+                accept="image/png, image/jpg, image/jpeg">
+            </div>
+          </div>
+          <div class="text-center">
+            <h3 *ngIf="usuario">
+              {{usuario.nome}}
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-4 text-right">
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="registerForm" *ngIf="usuario">
+            <h6 class="heading-small text-muted mb-4">Dados pessoais</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-nome">Nome</label>
+                    <input type="text" id="input-nome" class="form-control form-control-alternative" disabled
+                      value={{usuario.nome}}>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-sexo">Sexo</label>
+                    <select id="input-sexo" class="form-control form-control-alternative" formControlName="sexo">
+                      <option value="">Selecione</option>
+                      <option value="M">Masculino</option>
+                      <option value="F">Feminino</option>
+                    </select>
+                    <div *ngIf="registerForm.get('sexo').hasError('required') &&
+                      registerForm.get('sexo').touched" style="font-size:8pt; color: red;">
+                      campo obrigatório.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-identidade">RG</label>
+                    <input type="text" id="input-identidade" class="form-control form-control-alternative"
+                      placeholder="Informe seu RG" formControlName="identidade">
+                    <div *ngIf="registerForm.get('identidade').hasError('required') &&
+                      registerForm.get('identidade').touched" style="font-size:8pt; color: red;">
+                      campo obrigatório.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-dataNascimento">Nascimento</label>
+                    <input type="date" id="input-dataNascimento" class="form-control form-control-alternative"
+                      placeholder="" formControlName="dataNascimento"
+                      [ngModel]="usuario.dataNascimento | date:'yyyy-MM-dd'">
+                    <div *ngIf="registerForm.get('dataNascimento').hasError('required') &&
+                      registerForm.get('dataNascimento').touched" style="font-size:8pt; color: red;">
+                      campo obrigatório.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-4" />
+            <h6 class="heading-small text-muted mb-4">Contato</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-email">Email</label>
+                    <input type="email" id="input-email" class="form-control form-control-alternative" disabled
+                      value={{usuario.email}}>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-celular">Celular</label>
+                    <input type="text" id="input-celular" class="form-control form-control-alternative"
+                      placeholder="(XX) 9____-____" formControlName="celular" mask="(00) 00000-0000">
+                    <div *ngIf="registerForm.get('celular').hasError('required') &&
+                      registerForm.get('celular').touched" style="font-size:8pt; color: red;">
+                      campo obrigatório.
+                    </div>
+                    <div *ngIf="registerForm.get('celular').hasError('minlength') &&
+                      registerForm.get('celular').touched" style="font-size:8pt; color: red;">
+                      Digite um número válido.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-4" />
+            <h6 class="heading-small text-muted mb-4">Unidade</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="SwitchAluno" [checked]=aluno
+                        (change)="SwitchAluno()">
+                      <label class="custom-control-label" for="SwitchAluno">Sou aluno</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-unidade">Unidade</label>
+                    <select id="input-unidade" class="form-control form-control-alternative" formControlName="unidadeId"
+                      (change)="onSelectChange()">
+                      <option value="">Selecione</option>
+                      <option *ngFor="let unidade of unidades" value={{unidade.id}}>{{unidade.nome}}</option>
+                    </select>
+                    <div *ngIf="registerForm.get('unidadeId').hasError('required') &&
+                      registerForm.get('unidadeId').touched" style="font-size:8pt; color: red;">
+                      campo obrigatório.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4" *ngIf="aluno">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-ra">RA</label>
+                    <input type="text" id="input-ra" class="form-control form-control-alternative" formControlName="ra"
+                      placeholder="Informe seu RA">
+                    <div *ngIf="registerForm.get('ra').hasError('required') &&
+                      registerForm.get('ra').touched" style="font-size:8pt; color: red;">
+                      campo obrigatório.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12" *ngIf="aluno">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-curso">Curso</label>
+                    <select id="input-curso" class="form-control form-control-alternative" formControlName="cursoId">
+                      <option value="null">Selecione</option>
+                      <option *ngFor="let curso of cursos" value={{curso.id}}>{{curso.nome}}</option>
+                    </select>
+                    <div *ngIf="registerForm.get('cursoId').hasError('required') &&
+                      registerForm.get('cursoId').touched" style="font-size:8pt; color: red;">
+                      campo obrigatório.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="button" class="btn btn-primary mt-4" (click)="Registrar()">Registrar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

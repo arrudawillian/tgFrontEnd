@@ -1,0 +1,55 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+  <span class="mask bg-gradient-danger opacity-8"></span>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+
+            <div class="col-4 text-right">
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="registerForm" *ngIf="this.unidadePacotes">
+            <h6 class="heading-small text-muted mb-4" *ngIf="!usuario.unidadePacoteId">Escolha seu pacote</h6>
+            <div *ngIf="usuario.unidadePacoteId" class="text-center">
+              <h6 class="heading-small mb-4 ">Você já escolheu seu pacote: {{usuario.unidadePacote.pacote.descricao}}</h6>
+              <p style="font-size:11pt;">
+                Entre em contato com seu delegado se quiser trocar de pacote.<br>
+              </p>
+            </div>
+            <div class="row" *ngIf="!usuario.unidadePacoteId">
+              <div class="col-md-8">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-unidade">Pacotes</label>
+                  <select id="input-unidade" class="form-control form-control-alternative"
+                    formControlName="unidadePacoteId">
+                    <option value="">Selecione</option>
+                    <option *ngFor="let unidade of unidadePacotes" value={{unidade.pacoteId}}>
+                      {{unidade.pacote.descricao}} - R${{unidade.valor}},00</option>
+                  </select>
+                  <div *ngIf="registerForm.get('unidadePacoteId').hasError('required') &&
+                      registerForm.get('unidadePacoteId').touched" style="font-size:8pt; color: red;">
+                    campo obrigatório.
+                  </div>
+                </div>
+                <p style="font-size:8pt;">
+                  <span style="font-weight: bold;">Pacote completo:</span> Incluso entrada para as festas e inscrição
+                  para os jogos.<br>
+                  <span style="font-weight: bold;">Pacote atleta:</span> Apenas inscrição para os jogos.
+                </p>
+              </div>
+            </div>
+            <div class="text-center" *ngIf="!usuario.unidadePacoteId">
+              <button type="button" class="btn btn-primary mt-4" (click)="SalvarPacote()">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

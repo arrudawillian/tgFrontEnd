@@ -1,0 +1,97 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <h3 class="mb-0">Documentos</h3>
+            <form [formGroup]="registerForm">
+              <div ngbDropdown placement="bottom-right">
+                <button class="btn btn-sm btn-primary" ngbDropdownToggle>Upload</button>
+                <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+                  <a class="dropdown-item" (click)="atestado.click()">Atestado</a>
+                  <a class="dropdown-item" (click)="pagamento.click()">Comprovante de pagamento</a>
+                </div>
+                <input type="file" #atestado class="form-control" (change)="onFileChange($event, 1)"
+                  formControlName="titulo" style="display: none" accept="image/png, image/jpg, image/jpeg">
+                <input type="file" #pagamento class="form-control" (change)="onFileChange($event, 2)"
+                  formControlName="titulo" style="display: none" accept="image/png, image/jpg, image/jpeg">
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Arquivo</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let documento of documentos">
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                      <img alt="Image placeholder" src="../assets/img/theme/file.png">
+                    </a>
+                    <div class="media-body">
+                      <span class="mb-0 text-sm">{{documento.titulo}}</span>
+                    </div>
+                  </div>
+                </th>
+                <td>
+                  {{documento.documento.descricao}}
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    <i
+                      [ngClass]="{'bg-warning': documento.status.descricao === 'Pendente', 'bg-success': documento.status.descricao === 'Aprovado', 'bg-danger': documento.status.descricao === 'Recusado'}"></i>
+                    {{documento.status.descricao}}
+                  </span>
+                </td>
+                <td class="text-right">
+                  <div>
+                    <a class="btn btn-sm btn-icon-only" (click)="openModalView(view, documento.path)">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                    <a class="btn btn-sm btn-icon-only" style="color: red;"
+                      (click)="openModalExcluir(excluir, documento.id)">
+                      <i class="fas fa-trash"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #excluir>
+    <div class="modal-body text-center">
+      <p>confirma a exclusão?</p>
+      <button type="button" class="btn btn-danger" (click)="confirm()">Sim</button>
+      <button type="button" class="btn btn-primary" (click)="decline()">Não</button>
+    </div>
+  </ng-template>
+  <ng-template #view>
+    <div class="modal-header">
+      <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <img *ngIf="!production" src="{{imgURL}}/{{path}}" style="width: 100%; height: auto">
+      <img *ngIf="production" src="{{path}}" style="width: 100%; height: auto">
+    </div>
+  </ng-template>
+</div>

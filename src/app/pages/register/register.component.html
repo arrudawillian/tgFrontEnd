@@ -1,0 +1,107 @@
+<div class="header bg-gradient-danger py-4 py-lg-5">
+  <div class="container">
+    <div class="header-body text-center mb-7">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-6">
+          <h1 class="text-white">SGE - Sistema de Gestão de Eventos.</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="separator separator-bottom separator-skew zindex-100">
+    <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+    </svg>
+  </div>
+</div>
+<div class="container mt--8 pb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <div class="card bg-secondary shadow border-0">
+        <div class="card-body px-lg-5 py-lg-5">
+          <div class="text-center text-muted mb-4">
+            <small>Entre com seus dados</small>
+          </div>
+          <form [formGroup]="registerForm">
+            <div class="form-group">
+              <div class="input-group input-group-alternative mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                </div>
+                <input class="form-control" placeholder="Nome Completo" formControlName="nome" type="text">
+              </div>
+              <div *ngIf="registerForm.get('nome').hasError('required') &&
+                registerForm.get('nome').touched" style="font-size:8pt;">
+                Nome Completo é obrigatório.
+              </div>
+              <div *ngIf="registerForm.get('nome').hasError('minlength') &&
+                registerForm.get('nome').touched" style="font-size:8pt;">
+                Nome deve conter no mínimo 4 caracteres.
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group input-group-alternative mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                </div>
+                <input class="form-control" placeholder="Email" formControlName="email" type="email">
+              </div>
+              <div *ngIf="registerForm.get('email').hasError('required') &&
+                registerForm.get('email').touched" style="font-size:8pt;">
+                email é obrigatório.
+              </div>
+              <div *ngIf="registerForm.get('email').hasError('email') &&
+                registerForm.get('email').touched" style="font-size:8pt;">
+                Deve ser um e-mail válido.
+              </div>
+            </div>
+            <div formGroupName="senhas">
+              <div class="form-group">
+                <div class="input-group input-group-alternative mb-1">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                  </div>
+                  <input class="form-control" placeholder="Password" formControlName="senha" type="password">
+                </div>
+                <div *ngIf="registerForm.get('senhas.senha').hasError('minlength') &&
+                registerForm.get('senhas.senha').touched" style="font-size:8pt;">
+                  Deve conter no mínimo 4 caracters
+                </div>
+                <div *ngIf="registerForm.get('senhas.senha').hasError('required') &&
+                registerForm.get('senhas.senha').touched" style="font-size:8pt;">
+                  Senha é obrigatório.
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group input-group-alternative mb-1">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                  </div>
+                  <input class="form-control" placeholder="Confirma Senha" formControlName="confirmaSenha"
+                    type="password">
+                </div>
+                <div *ngIf="registerForm.get('senhas.confirmaSenha').hasError('required') &&
+                  registerForm.get('senhas.confirmaSenha').touched" style="font-size:8pt;">
+                  Confirme a Senha
+                </div>
+                <div *ngIf="registerForm.get('senhas.confirmaSenha').hasError('mismatch') 
+                  && registerForm.get('senhas.confirmaSenha').touched" style="font-size:8pt;">
+                  Confirmação não confere
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="button" class="btn btn-primary mt-4" [disabled]="!registerForm.valid"
+                (click)="RegistrarUsuario()">Registrar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 text-center">
+          <a href="#/login" class="text-light"><small>Login</small></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+  <span class="mask bg-gradient-danger opacity-8"></span>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-body">
+          <form [formGroup]="unidadeForm">
+            <h6 class="heading-small text-muted mb-4">Cadastro de Unidades</h6>
+            <div class="pl-lg-12">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-nome">Unidade</label>
+                    <input type="text" id="input-nome" class="form-control form-control-alternative"
+                      formControlName="nome">
+                    <div *ngIf="unidadeForm.get('nome').hasError('required') &&
+                    unidadeForm.get('nome').touched" style="font-size:8pt; color: red;">
+                      campo obrigatório.
+                    </div>
+                    <div *ngIf="unidadeForm.get('nome').hasError('minLength') &&
+                    unidadeForm.get('nome').touched" style="font-size:8pt; color: red;">
+                      campo obrigatório.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="button" class="btn btn-primary mt-4" (click)="Registrar()">Registrar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush" *ngIf="unidades && unidades.length > 0">
+            <tbody *ngFor="let unidade of unidades">
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <span class="mb-0 text-sm">{{unidade.nome}}</span>
+                    </div>
+                  </div>
+                </th>
+                <td class="text-right">
+                  <div>
+                    <a class="btn btn-sm btn-icon-only" style="color: red;"
+                      (click)="openModalExcluir(excluir, unidade.id)">
+                      <i class="fas fa-trash"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #excluir>
+  <div class="modal-body text-center">
+    <p>confirma a exclusão?</p>
+    <button type="button" class="btn btn-danger" (click)="confirm()">Sim</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">Não</button>
+  </div>
+</ng-template>
